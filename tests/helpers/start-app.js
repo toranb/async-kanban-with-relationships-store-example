@@ -5,13 +5,13 @@ import config from '../../config/environment';
 
 Ember.Test.registerHelper("visitSync", function(app, url) {
     var router = app.__container__.lookup('router:main');
-    router.location.setURL(url);
 
     if (app._readinessDeferrals > 0) {
       router['initialURL'] = url;
       Ember.run(app, 'advanceReadiness');
       delete router['initialURL'];
     } else {
+      router.location.setURL(url);
       Ember.run(app.__deprecatedInstance__, 'handleURL', url);
     }
 
